@@ -1,30 +1,33 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
-{
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        transform.position = new Vector3(0,0,0);
+public class PlayerMovement : MonoBehaviour {
+    public float speed;
+
+    void Start() {
+        // put player at position
+        transform.position = new Vector3(0, 0, 0);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    float distanceTraveled = 0;
+    void Update() {
         float dt = Time.deltaTime;
+        // * dt == per second
 
+        Vector3 move = new Vector3(0, 0, 0);
         if (Input.GetKey("w")) {
-            transform.position += new Vector3(0,1 * dt,0);
+            move += Vector3.up;
         }
         if (Input.GetKey("a")) {
-            transform.position += new Vector3(-1 * dt,0,0);
+            move += Vector3.left;
         }
         if (Input.GetKey("s")) {
-            transform.position += new Vector3(0,-1 * dt,0);
+            move += Vector3.down;
         }
         if (Input.GetKey("d")) {
-            transform.position += new Vector3(1 * dt,0,0);
+            move += Vector3.right;
         }
-
+        move = move * speed * dt;
+        distanceTraveled += move.magnitude;
+        transform.position += move;
     }
 }
